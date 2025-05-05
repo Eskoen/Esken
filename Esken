@@ -1,0 +1,49 @@
+# Створимо HTML-код лендінг-сторінки з відео, яке відтворюється автоматично
+html_code = f"""
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eskender Video</title>
+    <style>
+        html, body {{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: black;
+            overflow: hidden;
+        }}
+        video {{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }}
+    </style>
+</head>
+<body>
+    <video autoplay muted loop playsinline>
+        <source src="video.mp4" type="video/mp4">
+        Ваш браузер не підтримує відео.
+    </video>
+</body>
+</html>
+"""
+
+# Збережемо HTML-файл і перейменуємо відео до короткого імені
+output_dir = Path("/mnt/data/video_landing")
+output_dir.mkdir(exist_ok=True)
+
+# Шлях до HTML
+html_path = output_dir / "index.html"
+html_path.write_text(html_code, encoding="utf-8")
+
+# Скопіюємо відео з новою назвою
+video_output_path = output_dir / "video.mp4"
+video_output_path.write_bytes(video_path.read_bytes())
+
+html_path, video_output_path
